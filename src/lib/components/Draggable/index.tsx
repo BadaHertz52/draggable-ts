@@ -102,10 +102,7 @@ function Draggable({
     removeEvents();
     setShowBtnChanger(false);
   };
-  useEffect(() => {
-    if (saveData)
-      saveData({ id: id, x: position.x, y: position.y, zIndex: styleZIndex });
-  }, [styleZIndex, saveData, id, position]);
+
   return (
     <div
       id={id}
@@ -126,6 +123,13 @@ function Draggable({
         show={showBtnChanger}
         dragRef={dragRef}
         setStyleZIndex={setStyleZIndex}
+        saveDataProps={{
+          id: id,
+          x: position.x,
+          y: position.y,
+          zIndex: styleZIndex,
+        }}
+        saveData={saveData}
       />
       <div>{children}</div>
     </div>

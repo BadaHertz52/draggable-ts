@@ -7,12 +7,21 @@ import React, {
 } from "react";
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io";
 import styles from "./style.module.scss";
+import { SaveDataProps } from "../Draggable";
 type BtnChangerProps = {
+  saveDataProps: SaveDataProps;
   dragRef: RefObject<HTMLDivElement>;
   setStyleZIndex: Dispatch<SetStateAction<number>>;
   show: boolean;
+  saveData?: (props: SaveDataProps) => void;
 };
-function BtnChanger({ dragRef, setStyleZIndex, show }: BtnChangerProps) {
+function BtnChanger({
+  dragRef,
+  setStyleZIndex,
+  show,
+  saveData,
+  saveDataProps,
+}: BtnChangerProps) {
   const FRONT = "front";
   const BACK = "back";
   type Direction = typeof FRONT | typeof BACK;
@@ -62,6 +71,7 @@ function BtnChanger({ dragRef, setStyleZIndex, show }: BtnChangerProps) {
     if (typeof zIndex === "number") {
       const newZIndex = direction === FRONT ? zIndex + 1 : zIndex - 1;
       setStyleZIndex(newZIndex);
+      saveData && saveData({ ...saveDataProps, zIndex: newZIndex });
     }
   };
   return (
