@@ -17,14 +17,19 @@ function SampleContainer() {
   };
   return (
     <div className="sample-container">
-      <Draggable id="drag1" x={0} y={0} saveData={saveData}>
+      <Draggable id="drag1" x={100} y={100} saveData={saveData}>
         <Sample name="sample1" backgroundColor="#fff7a5" />
       </Draggable>
-      <Draggable id="drag2" x={110} y={0} opacity={0.7}>
-        <Sample name="sample2" opacity={0.7} backgroundColor="#f6c7d3" />
+      <Draggable id="drag2" x={220} y={150} opacity={0.7}>
+        <Sample
+          name="sample2"
+          width="200px"
+          opacity={0.7}
+          backgroundColor="#f6c7d3"
+        />
       </Draggable>
-      <Draggable id="drag3" x={230} y={0} opacity={0.4}>
-        <Sample name="sample3" opacity={0.4} />
+      <Draggable id="drag3" x={200} y={200} opacity={0.4}>
+        <Sample name="sample3" width="200px" height="200px" opacity={0.4} />
       </Draggable>
     </div>
   );
