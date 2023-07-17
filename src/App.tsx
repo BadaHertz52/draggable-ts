@@ -3,7 +3,16 @@ import Draggable, { SaveDataProps } from "./lib/components/Draggable";
 
 function App() {
   const saveData = (props: SaveDataProps) => {
-    console.log("save data", props.x, props.y);
+    console.log(
+      "id:",
+      props.id,
+      "x:",
+      props.x,
+      "y:",
+      props.y,
+      "zIndex",
+      props.zIndex
+    );
   };
   return (
     <div className="App">
