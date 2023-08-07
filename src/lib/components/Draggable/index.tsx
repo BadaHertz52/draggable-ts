@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useState,
   useMemo,
-  useEffect,
 } from "react";
 import styles from "./style.module.scss";
 import { debounce } from "underscore";
@@ -98,10 +97,10 @@ function Draggable({
     },
     [dragRef, setMoving]
   );
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     removeEvents();
     setShowBtnChanger(false);
-  };
+  }, [removeEvents]);
 
   return (
     <div
