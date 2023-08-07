@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
 } from "react";
-import styles from "./style.module.scss";
+import "./style.scss";
 import { debounce } from "underscore";
 import BtnChanger from "../BtnChanger";
 export type SaveDataProps = {
@@ -106,7 +106,7 @@ function Draggable({
     <div
       id={id}
       ref={dragRef}
-      className={`draggable ${styles.draggable}`}
+      className="draggable"
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
         opacity: moving ? opacity : 1,

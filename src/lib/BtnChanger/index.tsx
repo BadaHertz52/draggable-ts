@@ -1,6 +1,6 @@
 import React, { RefObject, useCallback, SetStateAction, Dispatch } from "react";
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io";
-import styles from "./style.module.scss";
+import "./style.scss";
 import { SaveDataProps } from "../Draggable";
 type BtnChangerProps = {
   saveDataProps: SaveDataProps;
@@ -79,17 +79,17 @@ function BtnChanger({
     [findZIndex, saveData, saveDataProps, setStyleZIndex]
   );
   return (
-    <div className={show ? styles.btnChangerOn : styles.btnChanger}>
-      <div className={styles.inner}>
+    <div className={`${show ? "on" : ""} draggable__btnChanger `}>
+      <div className="draggable__btnChanger__inner">
         <button
-          className={styles.btn}
+          className="draggable__btnChanger__btn"
           onClick={() => changeZIndex(FRONT)}
           title="move  back"
         >
           <IoMdArrowRoundBack />
         </button>
         <button
-          className={styles.btn}
+          className="draggable__btnChanger__btn"
           onClick={() => changeZIndex(BACK)}
           title="move front"
         >

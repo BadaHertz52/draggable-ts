@@ -1,0 +1,21 @@
+.draggable__btnChanger {
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  height: 24px;
+  &__inner {
+    display: none;
+  }
+  &.on {
+    .draggable__btnChanger__inner {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+  }
+  &__btn {
+    background-color: #f3f3f3;
+    border: none;
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+}

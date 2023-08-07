@@ -1,5 +1,5 @@
 import React from "react";
-import Draggable, { SaveDataProps } from "../../lib/components/Draggable";
+import Draggable, { SaveDataProps } from "../../lib/Draggable";
 import Sample from "../Sample";
 
 function SampleContainer() {
