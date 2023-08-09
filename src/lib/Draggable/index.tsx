@@ -27,6 +27,7 @@ export type DraggableProps = {
   saveData?: (props: SaveDataProps) => void;
   opacity?: number;
   zIndex?: number;
+  isBtnChanger?: boolean;
 };
 function Draggable({
   id,
@@ -36,6 +37,7 @@ function Draggable({
   saveData,
   opacity = 1,
   zIndex = 0,
+  isBtnChanger = true,
 }: DraggableProps) {
   const dragRef = useRef<HTMLDivElement>(null);
   const [moving, setMoving] = useState<boolean>(false);
@@ -67,7 +69,7 @@ function Draggable({
       }, 50),
     [saveData, id, styleZIndex]
   );
-  const onMouseMove = useCallback(
+  const handleMouseMove = useCallback(
     (event: React.MouseEvent) => {
       if (moving) {
         const newPosition: PositionType = {
@@ -82,11 +84,7 @@ function Draggable({
     [moving, Move]
   );
 
-  const removeEvents = useCallback(() => {
-    setMoving(false);
-  }, []);
-
-  const onMouseDown = useCallback(
+  const handleMouseDown = useCallback(
     (event: React.MouseEvent) => {
       if (dragRef.current) {
         const { left, top } = dragRef.current.getBoundingClientRect();
@@ -97,11 +95,17 @@ function Draggable({
     },
     [dragRef, setMoving]
   );
+  const handleMouseUp = useCallback(() => {
+    setMoving(false);
+  }, []);
   const handleMouseLeave = useCallback(() => {
-    removeEvents();
-    setShowBtnChanger(false);
-  }, [removeEvents]);
+    setMoving(false);
+    isBtnChanger && setShowBtnChanger(false);
+  }, [isBtnChanger]);
 
+  const handleMouseEnter = useCallback(() => {
+    isBtnChanger && setShowBtnChanger(true);
+  }, [isBtnChanger]);
   return (
     <div
       id={id}
@@ -112,24 +116,26 @@ function Draggable({
         opacity: moving ? opacity : 1,
         zIndex: styleZIndex,
       }}
-      onMouseMove={onMouseMove}
-      onMouseDown={onMouseDown}
-      onMouseUp={removeEvents}
+      onMouseMove={handleMouseMove}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setShowBtnChanger(true)}
+      onMouseEnter={handleMouseEnter}
     >
-      <BtnChanger
-        show={showBtnChanger}
-        dragRef={dragRef}
-        setStyleZIndex={setStyleZIndex}
-        saveDataProps={{
-          id: id,
-          x: position.x,
-          y: position.y,
-          zIndex: styleZIndex,
-        }}
-        saveData={saveData}
-      />
+      {isBtnChanger && (
+        <BtnChanger
+          show={showBtnChanger}
+          dragRef={dragRef}
+          setStyleZIndex={setStyleZIndex}
+          saveDataProps={{
+            id: id,
+            x: position.x,
+            y: position.y,
+            zIndex: styleZIndex,
+          }}
+          saveData={saveData}
+        />
+      )}
       <div>{children}</div>
     </div>
   );

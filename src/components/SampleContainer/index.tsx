@@ -20,9 +20,9 @@ function SampleContainer() {
       <Draggable id="drag1" x={100} y={100} saveData={saveData}>
         <Sample name="sample1" backgroundColor="#fff7a5" />
       </Draggable>
-      <Draggable id="drag2" x={220} y={150} opacity={0.7}>
+      <Draggable id="drag2" x={220} y={150} opacity={0.7} isBtnChanger={false}>
         <Sample
-          name="sample2"
+          name="sample2-no btn"
           width="200px"
           opacity={0.7}
           backgroundColor="#f6c7d3"

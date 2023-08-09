@@ -3,7 +3,7 @@ import React, { useRef, useCallback, useState, useMemo, } from "react";
 import "./style.scss";
 import { debounce } from "underscore";
 import BtnChanger from "../BtnChanger";
-function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, }) {
+function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, isBtnChanger = true, }) {
     const dragRef = useRef(null);
     const [moving, setMoving] = useState(false);
     /**
@@ -26,7 +26,7 @@ function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, }) {
         };
         saveData && saveData(props);
     }, 50), [saveData, id, styleZIndex]);
-    const onMouseMove = useCallback((event) => {
+    const handleMouseMove = useCallback((event) => {
         if (moving) {
             const newPosition = {
                 x: event.clientX - initialX.current,
@@ -36,10 +36,7 @@ function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, }) {
             Move(newPosition.x, newPosition.y);
         }
     }, [moving, Move]);
-    const removeEvents = useCallback(() => {
-        setMoving(false);
-    }, []);
-    const onMouseDown = useCallback((event) => {
+    const handleMouseDown = useCallback((event) => {
         if (dragRef.current) {
             const { left, top } = dragRef.current.getBoundingClientRect();
             initialX.current = event.clientX - left;
@@ -47,19 +44,25 @@ function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, }) {
             setMoving(true);
         }
     }, [dragRef, setMoving]);
+    const handleMouseUp = useCallback(() => {
+        setMoving(false);
+    }, []);
     const handleMouseLeave = useCallback(() => {
-        removeEvents();
-        setShowBtnChanger(false);
-    }, [removeEvents]);
+        setMoving(false);
+        isBtnChanger && setShowBtnChanger(false);
+    }, [isBtnChanger]);
+    const handleMouseEnter = useCallback(() => {
+        isBtnChanger && setShowBtnChanger(true);
+    }, [isBtnChanger]);
     return (_jsxs("div", { id: id, ref: dragRef, className: "draggable", style: {
             transform: `translate(${position.x}px, ${position.y}px)`,
             opacity: moving ? opacity : 1,
             zIndex: styleZIndex,
-        }, onMouseMove: onMouseMove, onMouseDown: onMouseDown, onMouseUp: removeEvents, onMouseLeave: handleMouseLeave, onMouseEnter: () => setShowBtnChanger(true), children: [_jsx(BtnChanger, { show: showBtnChanger, dragRef: dragRef, setStyleZIndex: setStyleZIndex, saveDataProps: {
+        }, onMouseMove: handleMouseMove, onMouseDown: handleMouseDown, onMouseUp: handleMouseUp, onMouseLeave: handleMouseLeave, onMouseEnter: handleMouseEnter, children: [isBtnChanger && (_jsx(BtnChanger, { show: showBtnChanger, dragRef: dragRef, setStyleZIndex: setStyleZIndex, saveDataProps: {
                     id: id,
                     x: position.x,
                     y: position.y,
                     zIndex: styleZIndex,
-                }, saveData: saveData }), _jsx("div", { children: children })] }));
+                }, saveData: saveData })), _jsx("div", { children: children })] }));
 }
 export default React.memo(Draggable);

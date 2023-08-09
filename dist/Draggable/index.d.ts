@@ -19,7 +19,8 @@ export type DraggableProps = {
     saveData?: (props: SaveDataProps) => void;
     opacity?: number;
     zIndex?: number;
+    isBtnChanger?: boolean;
 };
-declare function Draggable({ id, children, x, y, saveData, opacity, zIndex, }: DraggableProps): import("react/jsx-runtime").JSX.Element;
+declare function Draggable({ id, children, x, y, saveData, opacity, zIndex, isBtnChanger, }: DraggableProps): import("react/jsx-runtime").JSX.Element;
 declare const _default: React.MemoExoticComponent<typeof Draggable>;
 export default _default;
