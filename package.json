@@ -1,5 +1,5 @@
 {
-  "name": "@badahertz52/draggable",
+  "name": "@badahertz52/draggable-ts",
   "version": "0.1.0",
   "private": false,
   "module": "dist/index.js",
