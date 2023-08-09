@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
+  RefObject,
 } from "react";
 import "./style.scss";
 import { debounce } from "underscore";
@@ -17,6 +18,7 @@ export type SaveDataProps = {
 export type DraggableProps = {
   id: string;
   children: ReactNode;
+  draggableGroupRef: RefObject<HTMLDivElement>;
   x: number;
   y: number;
   /**
@@ -32,6 +34,7 @@ export type DraggableProps = {
 function Draggable({
   id,
   children,
+  draggableGroupRef,
   x,
   y,
   saveData,
@@ -71,17 +74,21 @@ function Draggable({
   );
   const handleMouseMove = useCallback(
     (event: React.MouseEvent) => {
-      if (moving) {
+      if (moving && draggableGroupRef.current) {
+        const parentDOMRect = draggableGroupRef.current.getBoundingClientRect();
+        const newX = event.clientX - initialX.current - parentDOMRect.x;
+        const newY = event.clientY - initialY.current - parentDOMRect.y;
+
         const newPosition: PositionType = {
-          x: event.clientX - initialX.current,
-          y: event.clientY - initialY.current,
+          x: newX < 0 ? 0 : newX,
+          y: newY < 0 ? 0 : newY,
         };
 
         setPosition(newPosition);
         Move(newPosition.x, newPosition.y);
       }
     },
-    [moving, Move]
+    [moving, Move, draggableGroupRef]
   );
 
   const handleMouseDown = useCallback(

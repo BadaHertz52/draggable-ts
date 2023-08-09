@@ -3,7 +3,7 @@ import React, { useRef, useCallback, useState, useMemo, } from "react";
 import "./style.scss";
 import { debounce } from "underscore";
 import BtnChanger from "../BtnChanger";
-function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, isBtnChanger = true, }) {
+function Draggable({ id, children, draggableGroupRef, x, y, saveData, opacity = 1, zIndex = 0, isBtnChanger = true, }) {
     const dragRef = useRef(null);
     const [moving, setMoving] = useState(false);
     /**
@@ -27,15 +27,18 @@ function Draggable({ id, children, x, y, saveData, opacity = 1, zIndex = 0, isBt
         saveData && saveData(props);
     }, 50), [saveData, id, styleZIndex]);
     const handleMouseMove = useCallback((event) => {
-        if (moving) {
+        if (moving && draggableGroupRef.current) {
+            const parentDOMRect = draggableGroupRef.current.getBoundingClientRect();
+            const newX = event.clientX - initialX.current - parentDOMRect.x;
+            const newY = event.clientY - initialY.current - parentDOMRect.y;
             const newPosition = {
-                x: event.clientX - initialX.current,
-                y: event.clientY - initialY.current,
+                x: newX < 0 ? 0 : newX,
+                y: newY < 0 ? 0 : newY,
             };
             setPosition(newPosition);
             Move(newPosition.x, newPosition.y);
         }
-    }, [moving, Move]);
+    }, [moving, Move, draggableGroupRef]);
     const handleMouseDown = useCallback((event) => {
         if (dragRef.current) {
             const { left, top } = dragRef.current.getBoundingClientRect();

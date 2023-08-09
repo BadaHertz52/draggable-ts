@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, RefObject } from "react";
 import "./style.scss";
 export type SaveDataProps = {
     id: string;
@@ -9,6 +9,7 @@ export type SaveDataProps = {
 export type DraggableProps = {
     id: string;
     children: ReactNode;
+    draggableGroupRef: RefObject<HTMLDivElement>;
     x: number;
     y: number;
     /**
@@ -21,6 +22,6 @@ export type DraggableProps = {
     zIndex?: number;
     isBtnChanger?: boolean;
 };
-declare function Draggable({ id, children, x, y, saveData, opacity, zIndex, isBtnChanger, }: DraggableProps): import("react/jsx-runtime").JSX.Element;
+declare function Draggable({ id, children, draggableGroupRef, x, y, saveData, opacity, zIndex, isBtnChanger, }: DraggableProps): import("react/jsx-runtime").JSX.Element;
 declare const _default: React.MemoExoticComponent<typeof Draggable>;
 export default _default;
