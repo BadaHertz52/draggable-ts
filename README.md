@@ -1,8 +1,19 @@
 # Draggable-ts
 
+[draggable-ts npm 패키지 바로가기](https://www.npmjs.com/package/@badahertz52/draggable-ts)
+[draggable-ts sample 사이트 바로가기](https://badahertz52.github.io/draggable-ts)
+
+## Draggable ?
+
 <img src="./draggable.gif" alt="draggable-sample" width="300px" >
 
 Draggable-ts는 React와 typescript 환경에서 아이템을 드래스해서 다른 위치로 이동시키고,버튼을 통해 아이템을 다른 아이템의 앞 또는 뒤로 보내는 기능을 제공합니다.
+
+## Skill
+
+- HTML ,SCSS
+- Typescript
+- React
 
 ## Getting started
 
