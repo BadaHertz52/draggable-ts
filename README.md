@@ -1,46 +1,124 @@
-# Getting Started with Create React App
+# Draggable-ts
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="./draggable.gif" alt="draggable-sample" width="300px" >
 
-## Available Scripts
+Draggable-ts는 React와 typescript 환경에서 아이템을 드래스해서 다른 위치로 이동시키고,버튼을 통해 아이템을 다른 아이템의 앞 또는 뒤로 보내는 기능을 제공합니다.
 
-In the project directory, you can run:
+## Getting started
 
-### `npm start`
+### Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+  npm i @badahertz52/draggable-ts
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Usage
 
-### `npm test`
+#### Draggable props
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```ts
+type SaveDataParams = {
+  id: string;
+  x: number;
+  y: number;
+  zIndex: number;
+};
 
-### `npm run build`
+type DraggableProps = {
+  id: string;
+  children: ReactNode;
+  draggableGroupRef: RefObject<HTMLDivElement>;
+  x: number;
+  y: number;
+  zIndex?: number;
+  opacity?: number;
+  isBtnChanger?: boolean;
+  saveData?: (props: SaveDataParams) => void;
+};
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| prop              | 설명                                                                                                             |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| id                | Draggable 요소의 id                                                                                              |
+| children          | Draggable을 적용시킬 React Node                                                                                  |
+| draggableGroupRef | draggableGroup 은 Draggable 요소들을 감싸는, Draggable의 부모 요소로, draggableGroup을 useRef로 지정한 RefObject |
+| x                 | children의 x 좌표                                                                                                |
+| y                 | children의 y 좌표                                                                                                |
+| zIndex            | children의 zIndex, 기본값: 0                                                                                     |
+| opacity           | children의 opacity , 기본값:1                                                                                    |
+| isBtnChanger      | children의 zIndex를 변경시킬 버튼의 존재 유무                                                                    |
+| saveData          | children의 위치나 zIndex가 변경될 때 변경 사항을 parameter로 받아서 활용할 수 있는 함수                          |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+ draggable-group
+              L draggable
+                    L draggable-children
+                  ....
+              L draggable
+```
 
-### `npm run eject`
+#### ⚠️ 주의 사항
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+draggable-group (draggable 요소들을 감싸는 부모 요소)의 width,height를 지정해야 draggable이 정상적으로 작동합니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Example
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```ts
+const App = () => {
+  //....
+  const draggableGroupRef = useRef<HTMLDivElement>(null);
+  const saveData = (params: SaveDataParams) => {
+    console.log("draggable data", params);
+  };
+  const draggableGroupStyle = {
+    width: "500px",
+    height: "500px",
+  };
+  const sampleStyle = {
+    width: "100px",
+    height: "100px",
+    backgroundColor: "#fff7a5",
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+  //...
+  return (
+    <div
+      className="draggable-group"
+      ref={draggableGroupRef}
+      style={draggableGroupStyle}
+    >
+      <Draggable
+        id="drag1"
+        x={100}
+        y={100}
+        saveData={saveData}
+        draggableGroupRef={draggableGroupRef}
+      >
+        <div className="sample1" style={sampleStyle}>
+          <div>
+            <p> sample1</p>
+          </div>
+        </div>
+      </Draggable>
+      <Draggable
+        id="drag2"
+        x={300}
+        y={600}
+        zIndex={3}
+        draggableGroupRef={draggableGroupRef}
+      >
+        <div className="sample2" style={sampleStyle}>
+          <div>
+            <p> sample2</p>
+          </div>
+        </div>
+      </Draggable>
+    </div>
+  );
+};
+```
