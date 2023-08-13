@@ -1,5 +1,5 @@
 import React, { CSSProperties, MouseEvent, useRef, useState } from "react";
-import Draggable, { SaveDataProps } from "../../lib/Draggable";
+import Draggable, { SaveDataParams } from "../../lib/Draggable";
 import Sample from "../Sample";
 import "./style.scss";
 function SampleContainer() {
@@ -13,7 +13,7 @@ function SampleContainer() {
   };
   const draggableGroupRef = useRef<HTMLDivElement>(null);
   const dropDownMenuRef = useRef<HTMLUListElement>(null);
-  const saveData = (props: SaveDataProps) => {
+  const saveData = (props: SaveDataParams) => {
     console.log(
       "id:",
       props.id,

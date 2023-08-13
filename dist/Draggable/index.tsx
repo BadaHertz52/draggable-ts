@@ -9,8 +9,8 @@ import React, {
 import "./style.scss";
 import { debounce } from "underscore";
 import BtnChanger from "../BtnChanger";
-export type SaveDataProps = {
-  id: string;
+export type SaveDataParams = {
+  id: string; // Draggable id
   x: number;
   y: number;
   zIndex: number;
@@ -22,11 +22,11 @@ export type DraggableProps = {
   x: number;
   y: number;
   /**
-   * 위치, zIndex 변경시, 변경사항을 props로 받아서 활용할 수 있는 함수
+   * 위치 또는 zIndex 변경시, 변경사항를 받아서 활용할 수 있는 함수
    * @param props
    * @returns
    */
-  saveData?: (props: SaveDataProps) => void;
+  saveData?: (props: SaveDataParams) => void;
   opacity?: number;
   zIndex?: number;
   isBtnChanger?: boolean;
@@ -62,7 +62,7 @@ function Draggable({
   const Move = useMemo(
     () =>
       debounce((x: number, y: number) => {
-        const props: SaveDataProps = {
+        const props: SaveDataParams = {
           id: id,
           x: x,
           y: y,
@@ -134,7 +134,7 @@ function Draggable({
           show={showBtnChanger}
           dragRef={dragRef}
           setStyleZIndex={setStyleZIndex}
-          saveDataProps={{
+          saveDataParmas={{
             id: id,
             x: position.x,
             y: position.y,

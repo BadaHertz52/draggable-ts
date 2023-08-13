@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useCallback } from "react";
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io";
 import "./style.scss";
-function BtnChanger({ dragRef, setStyleZIndex, show, saveData, saveDataProps, }) {
+function BtnChanger({ dragRef, setStyleZIndex, show, saveData, saveDataParmas, }) {
     const FRONT = "front";
     const BACK = "back";
     const findZIndex = useCallback((direction) => {
@@ -51,9 +51,9 @@ function BtnChanger({ dragRef, setStyleZIndex, show, saveData, saveDataProps, })
         if (typeof zIndex === "number") {
             const newZIndex = direction === FRONT ? zIndex + 1 : zIndex - 1;
             setStyleZIndex(newZIndex);
-            saveData && saveData({ ...saveDataProps, zIndex: newZIndex });
+            saveData && saveData({ ...saveDataParmas, zIndex: newZIndex });
         }
-    }, [findZIndex, saveData, saveDataProps, setStyleZIndex]);
+    }, [findZIndex, saveData, saveDataParmas, setStyleZIndex]);
     return (_jsx("div", { className: `${show ? "on" : ""} draggable__btnChanger `, children: _jsxs("div", { className: "draggable__btnChanger__inner", children: [_jsx("button", { className: "draggable__btnChanger__btn", onClick: () => changeZIndex(FRONT), title: "move  back", children: _jsx(IoMdArrowRoundBack, {}) }), _jsx("button", { className: "draggable__btnChanger__btn", onClick: () => changeZIndex(BACK), title: "move front", children: _jsx(IoMdArrowRoundForward, {}) })] }) }));
 }
 export default React.memo(BtnChanger);

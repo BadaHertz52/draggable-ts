@@ -1,20 +1,20 @@
 import React, { RefObject, useCallback, SetStateAction, Dispatch } from "react";
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io";
 import "./style.scss";
-import { SaveDataProps } from "../Draggable";
+import { SaveDataParams } from "../Draggable";
 type BtnChangerProps = {
-  saveDataProps: SaveDataProps;
+  saveDataParmas: SaveDataParams;
   dragRef: RefObject<HTMLDivElement>;
   setStyleZIndex: Dispatch<SetStateAction<number>>;
   show: boolean;
-  saveData?: (props: SaveDataProps) => void;
+  saveData?: (props: SaveDataParams) => void;
 };
 function BtnChanger({
   dragRef,
   setStyleZIndex,
   show,
   saveData,
-  saveDataProps,
+  saveDataParmas,
 }: BtnChangerProps) {
   const FRONT = "front";
   const BACK = "back";
@@ -73,10 +73,10 @@ function BtnChanger({
       if (typeof zIndex === "number") {
         const newZIndex = direction === FRONT ? zIndex + 1 : zIndex - 1;
         setStyleZIndex(newZIndex);
-        saveData && saveData({ ...saveDataProps, zIndex: newZIndex });
+        saveData && saveData({ ...saveDataParmas, zIndex: newZIndex });
       }
     },
-    [findZIndex, saveData, saveDataProps, setStyleZIndex]
+    [findZIndex, saveData, saveDataParmas, setStyleZIndex]
   );
   return (
     <div className={`${show ? "on" : ""} draggable__btnChanger `}>

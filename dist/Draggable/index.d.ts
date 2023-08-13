@@ -1,6 +1,6 @@
 import React, { ReactNode, RefObject } from "react";
 import "./style.scss";
-export type SaveDataProps = {
+export type SaveDataParams = {
     id: string;
     x: number;
     y: number;
@@ -13,11 +13,11 @@ export type DraggableProps = {
     x: number;
     y: number;
     /**
-     * 위치, zIndex 변경시, 변경사항을 props로 받아서 활용할 수 있는 함수
+     * 위치 또는 zIndex 변경시, 변경사항를 받아서 활용할 수 있는 함수
      * @param props
      * @returns
      */
-    saveData?: (props: SaveDataProps) => void;
+    saveData?: (props: SaveDataParams) => void;
     opacity?: number;
     zIndex?: number;
     isBtnChanger?: boolean;
