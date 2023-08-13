@@ -74,14 +74,24 @@ function Draggable({
   );
   const handleMouseMove = useCallback(
     (event: React.MouseEvent) => {
-      if (moving && draggableGroupRef.current) {
+      if (moving && draggableGroupRef.current && dragRef.current) {
         const parentDOMRect = draggableGroupRef.current.getBoundingClientRect();
         const newX = event.clientX - initialX.current - parentDOMRect.x;
         const newY = event.clientY - initialY.current - parentDOMRect.y;
 
         const newPosition: PositionType = {
-          x: newX < 0 ? 0 : newX,
-          y: newY < 0 ? 0 : newY,
+          x:
+            newX < 0
+              ? 0
+              : newX + dragRef.current.clientWidth >= parentDOMRect.width
+              ? parentDOMRect.width - dragRef.current.clientWidth
+              : newX,
+          y:
+            newY < 0
+              ? 0
+              : newY + dragRef.current.clientHeight >= parentDOMRect.height
+              ? parentDOMRect.height - dragRef.current.clientHeight
+              : newY,
         };
 
         setPosition(newPosition);

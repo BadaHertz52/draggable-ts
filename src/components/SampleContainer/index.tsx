@@ -8,8 +8,20 @@ function SampleContainer() {
   const [direaction, setDireaction] = useState<Direaction>("row");
   const otherStyle: CSSProperties = {
     display: showOther ? "flex" : "none",
-    width: direaction === "row" ? "30%" : "100vw",
-    height: direaction === "row" ? "100vh" : "100px",
+    width: direaction === "row" ? "30%" : "calc(100vh - 96px)",
+    height: direaction === "row" ? "calc(100vh - 96px)" : "100px",
+  };
+  const draggableGroupStyle: CSSProperties = {
+    width: showOther
+      ? direaction === "row"
+        ? "70%"
+        : "calc(100vh - 96px)"
+      : "calc(100vh - 96px)",
+    height: showOther
+      ? direaction === "row"
+        ? "calc(100vh - 96px)"
+        : "calc(100vh - 100px)"
+      : "calc(100vh - 96px)",
   };
   const draggableGroupRef = useRef<HTMLDivElement>(null);
   const dropDownMenuRef = useRef<HTMLUListElement>(null);
@@ -114,7 +126,11 @@ function SampleContainer() {
         <div className="other" style={otherStyle}>
           <div>other</div>
         </div>
-        <div className="draggable-group" ref={draggableGroupRef}>
+        <div
+          className="draggable-group"
+          style={draggableGroupStyle}
+          ref={draggableGroupRef}
+        >
           <Draggable
             id="drag1"
             x={100}

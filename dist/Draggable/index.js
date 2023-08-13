@@ -27,13 +27,21 @@ function Draggable({ id, children, draggableGroupRef, x, y, saveData, opacity = 
         saveData && saveData(props);
     }, 50), [saveData, id, styleZIndex]);
     const handleMouseMove = useCallback((event) => {
-        if (moving && draggableGroupRef.current) {
+        if (moving && draggableGroupRef.current && dragRef.current) {
             const parentDOMRect = draggableGroupRef.current.getBoundingClientRect();
             const newX = event.clientX - initialX.current - parentDOMRect.x;
             const newY = event.clientY - initialY.current - parentDOMRect.y;
             const newPosition = {
-                x: newX < 0 ? 0 : newX,
-                y: newY < 0 ? 0 : newY,
+                x: newX < 0
+                    ? 0
+                    : newX + dragRef.current.clientWidth >= parentDOMRect.width
+                        ? parentDOMRect.width - dragRef.current.clientWidth
+                        : newX,
+                y: newY < 0
+                    ? 0
+                    : newY + dragRef.current.clientHeight >= parentDOMRect.height
+                        ? parentDOMRect.height - dragRef.current.clientHeight
+                        : newY,
             };
             setPosition(newPosition);
             Move(newPosition.x, newPosition.y);
@@ -61,7 +69,7 @@ function Draggable({ id, children, draggableGroupRef, x, y, saveData, opacity = 
             transform: `translate(${position.x}px, ${position.y}px)`,
             opacity: moving ? opacity : 1,
             zIndex: styleZIndex,
-        }, onMouseMove: handleMouseMove, onMouseDown: handleMouseDown, onMouseUp: handleMouseUp, onMouseLeave: handleMouseLeave, onMouseEnter: handleMouseEnter, children: [isBtnChanger && (_jsx(BtnChanger, { show: showBtnChanger, dragRef: dragRef, setStyleZIndex: setStyleZIndex, saveDataProps: {
+        }, onMouseMove: handleMouseMove, onMouseDown: handleMouseDown, onMouseUp: handleMouseUp, onMouseLeave: handleMouseLeave, onMouseEnter: handleMouseEnter, children: [isBtnChanger && (_jsx(BtnChanger, { show: showBtnChanger, dragRef: dragRef, setStyleZIndex: setStyleZIndex, saveDataParmas: {
                     id: id,
                     x: position.x,
                     y: position.y,
