@@ -1,6 +1,13 @@
 {
   "name": "@badahertz52/draggable-ts",
   "version": "0.1.0",
+  "author": {
+    "name": "badahertzt52"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BadaHertz52/draggable-ts.git"
+  },
   "private": false,
   "module": "dist/index.js",
   "main": "dist/index.js",
